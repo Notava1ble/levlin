@@ -2,7 +2,7 @@ import Page from "../components/Page";
 import Heading from "../components/Heading";
 import { Link } from "react-router-dom";
 import Back from "../components/Back";
-import questData from "../assets/questData";
+import questData from "../data/questData";
 import clockSvg from "../assets/clock.svg";
 
 const Quests = () => {
