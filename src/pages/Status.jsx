@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Heading from "../components/Heading";
+import Buttons from "../components/Buttons";
 
 const Status = () => {
 	const [level, setLevel] = useState(1);
@@ -21,20 +22,12 @@ const Status = () => {
 					</p>
 				</div>
 			</main>
-			<div className="w-[85%] border border-white mx-auto mt-10 flex justify-center items-center flex-col ">
-				<button className="w-[90%] uppercase font-foe text-white  my-3 mt-6 p-1 border text-3xl border-gray-200 hover:bg-slate-100 hover:text-gray-900 active:bg-white transition-all">
-					Quests &gt;
-				</button>
-				<button className="w-[90%] uppercase font-foe text-white  my-3 p-1 border text-3xl border-gray-200 hover:bg-slate-100 hover:text-gray-900 active:bg-white transition-all">
-					Inventory &gt;
-				</button>
+			<div className="w-[85%] border border-white mx-auto mt-14 md:mt-10 flex justify-center items-center flex-col transition-all p-3">
+				<Buttons className={"w-[90%]"}>Quests</Buttons>
+				<Buttons className={"w-[90%]"}>Inventory</Buttons>
 				<div className="w-[90%] flex justify-between items-center">
-					<button className="w-[45%] uppercase font-foe text-white  my-3 mb-6 p-1 border text-3xl border-gray-200 hover:bg-slate-100 hover:text-gray-900 active:bg-white transition-all">
-						Inventory &gt;
-					</button>
-					<button className="w-[45%] uppercase font-foe text-white  my-3 mb-6 p-1 border text-3xl border-gray-200 hover:bg-slate-100 hover:text-gray-900 active:bg-white transition-all">
-						Inventory &gt;
-					</button>
+					<Buttons className={"w-[47%]"}>Inventory</Buttons>
+					<Buttons className={"w-[47%]"}>Settings</Buttons>
 				</div>
 			</div>
 		</section>
