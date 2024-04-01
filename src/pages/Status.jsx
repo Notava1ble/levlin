@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Heading from "../components/Heading";
 import Buttons from "../components/Buttons";
+import Page from "../components/Page";
 
 const Status = () => {
 	const [level, setLevel] = useState(1);
+	const navigate = useNavigate();
 
 	return (
-		<section className="w-[85%] sm:w-[70%] md:w-[60%] lg:w-[45%] h-[85%] bg-bgblue-100/90 main-shadow">
+		<Page>
 			<Heading>status</Heading>
 			<main className="flex items-center justify-center font-roboto">
 				<div className="flex flex-col justify-center items-center w-fit">
@@ -23,14 +26,22 @@ const Status = () => {
 				</div>
 			</main>
 			<div className="w-[85%] border border-white mx-auto mt-14 md:mt-10 flex justify-center items-center flex-col transition-all p-3">
-				<Buttons className={"w-[90%]"}>Quests</Buttons>
-				<Buttons className={"w-[90%]"}>Inventory</Buttons>
+				<Buttons width={"w-[90%]"} path="quests">
+					Quests
+				</Buttons>
+				<Buttons width={"w-[90%]"} path="shop">
+					Shop
+				</Buttons>
 				<div className="w-[90%] flex justify-between items-center">
-					<Buttons className={"w-[47%]"}>Inventory</Buttons>
-					<Buttons className={"w-[47%]"}>Settings</Buttons>
+					<Buttons width={"w-[47%]"} path="inventory">
+						Inventory
+					</Buttons>
+					<Buttons width={"w-[47%]"} path="settings">
+						Settings
+					</Buttons>
 				</div>
 			</div>
-		</section>
+		</Page>
 	);
 };
 export default Status;
