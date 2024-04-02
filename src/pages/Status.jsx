@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Heading from "../components/Heading";
 import Buttons from "../components/Buttons";
 import Page from "../components/Page";
 
 const Status = () => {
 	const [level, setLevel] = useState(1);
-	const navigate = useNavigate();
+	const [xp, setXp] = useState(0);
 
 	return (
 		<Page>

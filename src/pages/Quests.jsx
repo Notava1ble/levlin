@@ -8,7 +8,7 @@ import clockSvg from "../assets/clock.svg";
 const Quests = () => {
 	return (
 		<Page>
-			<Link to="/levlin/">
+			<Link to="/levlin">
 				<Back />
 			</Link>
 			<Heading>Quests</Heading>
@@ -17,7 +17,7 @@ const Quests = () => {
 			</div>
 			<div className="w-[80%] mx-auto flex px-16 mt-10 justify-center items-center flex-col">
 				{questData.quests.map((quest) => (
-					<div className="w-full flex justify-between">
+					<div className="w-full flex justify-between" key={quest.id}>
 						<p className="text-white font-foe text-3xl uppercase text-shadow stroke-black">
 							{quest.work}
 						</p>

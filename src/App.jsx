@@ -12,8 +12,8 @@ function App() {
 				<div className="w-full h-full flex items-center justify-center">
 					<BrowserRouter>
 						<Routes>
-							<Route path="/Levlin/" element={<Status />} />
-							<Route path="/Levlin/quests/" element={<Quests />} />
+							<Route path="/levlin" element={<Status />} />
+							<Route path="/levlin/quests" element={<Quests />} />
 						</Routes>
 					</BrowserRouter>
 				</div>
