@@ -1,19 +1,36 @@
-import { useState } from "react";
 import Heading from "../components/Heading";
 import Buttons from "../components/Buttons";
 import Page from "../components/Page";
 
+import { useDispatch, useSelector } from "react-redux";
+import { addXp } from "../features/counter/counterSlice";
+
 const Status = () => {
-	const [level, setLevel] = useState(1);
-	const [xp, setXp] = useState(0);
+	const xp = useSelector((state) => state.counter.xp);
+	const level = useSelector((state) => state.counter.level);
+	const xpNeeded = Math.round((level / (Math.PI / 31)) ** 2);
+	const dispatch = useDispatch();
 
 	return (
 		<Page>
 			<Heading>status</Heading>
 			<main className="flex items-center justify-center font-roboto">
 				<div className="flex flex-col justify-center items-center w-fit">
-					<p className="text-7xl text-white">{level}</p>{" "}
+					<p className="text-7xl text-white">
+						{level}{" "}
+						<span className="text-sm hidden">
+							{xp}/{xpNeeded}
+						</span>{" "}
+					</p>{" "}
 					<span className="text-lg text-white uppercase">Level</span>
+					<div>
+						<button
+							className="text-white border p-1 mt-1 hidden"
+							onClick={() => dispatch(addXp())}
+						>
+							Dev: addXp
+						</button>
+					</div>
 				</div>
 				<div className="flex flex-col justify-center items-start w-fit ml-9 text-sm">
 					<p className="text-white">
