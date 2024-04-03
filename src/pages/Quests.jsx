@@ -2,10 +2,28 @@ import Page from "../components/Page";
 import Heading from "../components/Heading";
 import { Link } from "react-router-dom";
 import Back from "../components/Back";
+import { FaPlus } from "react-icons/fa";
+
 import questData from "../data/questData";
 import clockSvg from "../assets/clock.svg";
+import { useEffect, useState } from "react";
+
+const questsObject = {};
+
+questData.quests.map((q) => {
+	questsObject[q.id] = false;
+});
 
 const Quests = () => {
+	const [questsCompleted, setQuestscompleted] = useState(questsObject);
+	const handleDone = (id) => {
+		setQuestscompleted({ ...questsCompleted, [id]: true });
+	};
+
+	console.log(Object.values(questsCompleted).every((item) => item === true));
+
+	console.log(questsCompleted);
+
 	return (
 		<Page>
 			<Link to="/levlin">
@@ -18,11 +36,25 @@ const Quests = () => {
 			<div className="w-[80%] mx-auto flex px-16 mt-10 justify-center items-center flex-col">
 				{questData.quests.map((quest) => (
 					<div className="w-full flex justify-between" key={quest.id}>
-						<p className="text-white font-foe text-3xl uppercase text-shadow stroke-black">
+						<p
+							className={`font-foe text-3xl uppercase text-shadow stroke-black ${
+								questsCompleted[quest.id]
+									? "text-gray-400 line-through"
+									: "text-white"
+							}`}
+						>
+							{questsCompleted[quest.id] && "completed/ "}
 							{quest.work}
 						</p>
-						<p className="text-white font-foe text-3xl uppercase text-shadow stroke-black">
+						<p
+							className={`text-white font-foe text-3xl uppercase text-shadow stroke-black ${
+								questsCompleted[quest.id] && "text-gray-400"
+							}`}
+						>
 							&#91;0/{quest.goal}&#93;
+							<button className="ml-1" onClick={() => handleDone(quest.id)}>
+								<FaPlus className="size-5	" />
+							</button>
 						</p>
 					</div>
 				))}

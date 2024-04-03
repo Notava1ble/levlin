@@ -3,11 +3,11 @@ import Buttons from "../components/Buttons";
 import Page from "../components/Page";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addXp } from "../features/counter/counterSlice";
+import { addXp } from "../features/playerStatsSlice";
 
 const Status = () => {
-	const xp = useSelector((state) => state.counter.xp);
-	const level = useSelector((state) => state.counter.level);
+	const xp = useSelector((state) => state.playerStats.xp);
+	const level = useSelector((state) => state.playerStats.level);
 	const xpNeeded = Math.round((level / (Math.PI / 31)) ** 2);
 	const dispatch = useDispatch();
 

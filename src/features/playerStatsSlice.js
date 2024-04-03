@@ -5,8 +5,8 @@ const initialState = {
 	xp: 0,
 };
 
-export const counterSlice = createSlice({
-	name: "counter",
+export const playerStatsSlice = createSlice({
+	name: "playerStats",
 	initialState,
 	reducers: {
 		addXp: (state) => {
@@ -23,6 +23,6 @@ export const counterSlice = createSlice({
 	},
 });
 
-export const { addXp } = counterSlice.actions;
+export const { addXp } = playerStatsSlice.actions;
 
-export default counterSlice.reducer;
+export default playerStatsSlice.reducer;
