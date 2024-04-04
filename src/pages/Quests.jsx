@@ -7,6 +7,8 @@ import { FaPlus } from "react-icons/fa";
 import questData from "../data/questData";
 import clockSvg from "../assets/clock.svg";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addXp, log, newDay } from "../features/playerStatsSlice";
 
 const questsObject = {};
 
@@ -16,13 +18,38 @@ questData.quests.map((q) => {
 
 const Quests = () => {
 	const [questsCompleted, setQuestscompleted] = useState(questsObject);
+	const dispatch = useDispatch();
+
+	dispatch(log());
+
+	useEffect(() => {
+		if (localStorage.getItem("questsCompleted")) {
+			setQuestscompleted(JSON.parse(localStorage.getItem("questsCompleted")));
+		}
+	}, []);
+
 	const handleDone = (id) => {
-		setQuestscompleted({ ...questsCompleted, [id]: true });
+		setQuestscompleted((prevQuestsCompleted) => {
+			const newState = { ...prevQuestsCompleted, [id]: true };
+			localStorage.setItem("questsCompleted", JSON.stringify(newState));
+
+			if (Object.values(newState).every((item) => item === true)) {
+				console.log(
+					Object.values(questsCompleted).every((item) => item === true)
+				);
+				localStorage.setItem("areTodaysQuestsCompleted", true);
+				dispatch(addXp());
+			}
+
+			return newState;
+		});
 	};
 
-	console.log(Object.values(questsCompleted).every((item) => item === true));
-
-	console.log(questsCompleted);
+	const resetQuestsCompleted = () => {
+		setQuestscompleted(questsObject);
+		localStorage.setItem("questsCompleted", JSON.stringify(questsObject));
+		dispatch(newDay());
+	};
 
 	return (
 		<Page>
@@ -35,24 +62,30 @@ const Quests = () => {
 			</div>
 			<div className="w-[80%] mx-auto flex px-16 mt-10 justify-center items-center flex-col">
 				{questData.quests.map((quest) => (
-					<div className="w-full flex justify-between" key={quest.id}>
+					<div
+						className={`w-full flex justify-between ${
+							questsCompleted[quest.id]
+								? "text-gray-400 line-through"
+								: "text-white"
+						}`}
+						key={quest.id}
+					>
 						<p
-							className={`font-foe text-3xl uppercase text-shadow stroke-black ${
-								questsCompleted[quest.id]
-									? "text-gray-400 line-through"
-									: "text-white"
-							}`}
+							className={`font-foe text-3xl uppercase text-shadow stroke-black `}
 						>
 							{questsCompleted[quest.id] && "completed/ "}
 							{quest.work}
 						</p>
 						<p
-							className={`text-white font-foe text-3xl uppercase text-shadow stroke-black ${
+							className={`font-foe text-3xl uppercase text-shadow stroke-black ${
 								questsCompleted[quest.id] && "text-gray-400"
 							}`}
 						>
 							&#91;0/{quest.goal}&#93;
-							<button className="ml-1" onClick={() => handleDone(quest.id)}>
+							<button
+								className={`ml-1 ${questsCompleted[quest.id] && "hidden"}`}
+								onClick={() => handleDone(quest.id)}
+							>
 								<FaPlus className="size-5	" />
 							</button>
 						</p>
@@ -64,7 +97,14 @@ const Quests = () => {
 					WARNING! - FAILING TO COMPLETE THIS DAILY QUEST WILL RESULT INTO A
 					PUNISHMENT.
 				</p>
-				<img src={clockSvg} alt="clock" className="w-24 h-24 mt-2" />
+				<img
+					src={clockSvg}
+					alt="clock"
+					className="w-24 h-24 mt-2"
+					onClick={() => {
+						resetQuestsCompleted();
+					}}
+				/>
 			</div>
 		</Page>
 	);

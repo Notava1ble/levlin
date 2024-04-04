@@ -3,7 +3,7 @@ import Buttons from "../components/Buttons";
 import Page from "../components/Page";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addXp } from "../features/playerStatsSlice";
+import { addXp, newDay } from "../features/playerStatsSlice";
 
 const Status = () => {
 	const xp = useSelector((state) => state.playerStats.xp);
@@ -18,7 +18,7 @@ const Status = () => {
 				<div className="flex flex-col justify-center items-center w-fit">
 					<p className="text-7xl text-white">
 						{level}{" "}
-						<span className="text-sm hidden">
+						<span className="text-sm">
 							{xp}/{xpNeeded}
 						</span>{" "}
 					</p>{" "}
