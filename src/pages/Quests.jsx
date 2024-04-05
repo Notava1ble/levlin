@@ -9,6 +9,7 @@ import clockSvg from "../assets/clock.svg";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addXp, log, newDay } from "../features/playerStatsSlice";
+import { toast } from "react-toastify";
 
 const questsObject = {};
 
@@ -39,6 +40,7 @@ const Quests = () => {
 				);
 				localStorage.setItem("areTodaysQuestsCompleted", true);
 				dispatch(addXp());
+				// toast.success("here");
 			}
 
 			return newState;
@@ -60,7 +62,7 @@ const Quests = () => {
 			<div className="w-fit mx-auto">
 				<h1 className="text-g font-foe uppercase text-5xl text-shadow">Goal</h1>
 			</div>
-			<div className="w-[80%] mx-auto flex px-16 mt-10 justify-center items-center flex-col">
+			<div className="w-[80%] mx-auto flex md:px-16 mt-10 justify-center items-center flex-col">
 				{questData.quests.map((quest) => (
 					<div
 						className={`w-full flex justify-between ${

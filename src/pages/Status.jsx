@@ -17,20 +17,13 @@ const Status = () => {
 			<main className="flex items-center justify-center font-roboto">
 				<div className="flex flex-col justify-center items-center w-fit">
 					<p className="text-7xl text-white">
-						{level}{" "}
-						<span className="text-sm -ml-1">
+						{level}
+						<span className="text-sm">
 							{xp}/{xpNeeded}
-						</span>{" "}
-					</p>{" "}
+						</span>
+					</p>
 					<span className="text-lg text-white uppercase">Level</span>
-					<div>
-						<button
-							className="text-white border p-1 mt-1 hidden"
-							onClick={() => dispatch(addXp())}
-						>
-							Dev: addXp
-						</button>
-					</div>
+					<div></div>
 				</div>
 				<div className="flex flex-col justify-center items-start w-fit ml-9 text-sm">
 					<p className="text-white">
@@ -56,6 +49,22 @@ const Status = () => {
 						Settings
 					</Buttons>
 				</div>
+			</div>
+			<div className="w-[85%] border border-white mx-auto flex justify-center items-center transition-all p-3 gap-2">
+				<button
+					className="text-white border p-1 mt-1"
+					onClick={() => {
+						localStorage.clear(), location.reload();
+					}}
+				>
+					Dev: reset data
+				</button>
+				<button
+					className="text-white border p-1 mt-1 hidden"
+					onClick={() => dispatch(addXp())}
+				>
+					Dev: addXp
+				</button>
 			</div>
 		</Page>
 	);
