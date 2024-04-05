@@ -18,7 +18,7 @@ const Status = () => {
 				<div className="flex flex-col justify-center items-center w-fit">
 					<p className="text-7xl text-white">
 						{level}{" "}
-						<span className="text-sm">
+						<span className="text-sm -ml-1">
 							{xp}/{xpNeeded}
 						</span>{" "}
 					</p>{" "}
