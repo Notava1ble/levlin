@@ -2,7 +2,7 @@ import Status from "./pages/Status";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Quests from "./pages/Quests";
+import QuestPage from "./pages/QuestPage";
 
 function App() {
 	return (
@@ -18,7 +18,7 @@ function App() {
 					<BrowserRouter>
 						<Routes>
 							<Route path="/levlin" element={<Status />} />
-							<Route path="/levlin/quests" element={<Quests />} />
+							<Route path="/levlin/quests" element={<QuestPage />} />
 						</Routes>
 					</BrowserRouter>
 				</div>

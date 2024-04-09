@@ -3,7 +3,7 @@ import Buttons from "../components/Buttons";
 import Page from "../components/Page";
 
 import { useDispatch, useSelector } from "react-redux";
-import { addXp, newDay } from "../features/playerStatsSlice";
+import {} from "../features/playerStatsSlice";
 
 const Status = () => {
 	const xp = useSelector((state) => state.playerStats.xp);
@@ -59,12 +59,12 @@ const Status = () => {
 				>
 					Dev: reset data
 				</button>
-				<button
+				{/* <button
 					className="text-white border p-1 mt-1 hidden"
 					onClick={() => dispatch(addXp())}
 				>
 					Dev: addXp
-				</button>
+				</button> */}
 			</div>
 		</Page>
 	);

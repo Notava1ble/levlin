@@ -1,23 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import punishments from "../data/punishments";
+import questData from "../data/questData";
 
-const areTodaysQuestsCompleted = localStorage.getItem(
-	"areTodaysQuestsCompleted"
-)
-	? localStorage.getItem("areTodaysQuestsCompleted") === "true"
-	: false;
+const questsObject = {};
 
-const level = localStorage.getItem("level")
-	? parseInt(localStorage.getItem("level"))
-	: 1;
-const xp = localStorage.getItem("xp")
-	? parseInt(localStorage.getItem("xp"))
-	: 1;
+questData.map((q) => {
+	questsObject[q.id] = false;
+});
 
 const initialState = {
-	level: level,
-	xp: xp,
-	areTodaysQuestsCompleted: areTodaysQuestsCompleted,
+	date: new Date().getDate(),
+	level: 1,
+	xp: 0,
+	mode: "quest",
+	areTodaysQuestsCompleted: false,
+	arePunishmentsCompleted: false,
+	doneQuestsObject: questsObject,
+	randpunishment: punishments[Math.floor(Math.random() * punishments.length)],
+	quests: questData,
 };
 
 export const playerStatsSlice = createSlice({
@@ -28,14 +29,14 @@ export const playerStatsSlice = createSlice({
 			if (state.areTodaysQuestsCompleted === false) {
 				const xpGotten = Math.round((state.level / (Math.PI / 40)) ** 1.65);
 				const xpNeeded = Math.round((state.level / (Math.PI / 31)) ** 2);
-				console.log(xpGotten, xpNeeded, state.xp, state.level);
 				state.xp = state.xp + xpGotten;
+				state.areTodaysQuestsCompleted = true;
+				state.mode = "rest";
 				toast.success(`You earned ${xpGotten} xp`, {
 					autoClose: 3000,
 					className:
 						"bg-bgblue-200/60 text-white font-foe text-xl uppercase backdrop-blur",
 				});
-				state.areTodaysQuestsCompleted = true;
 
 				if (state.xp >= xpNeeded) {
 					state.level += 1;
@@ -46,8 +47,6 @@ export const playerStatsSlice = createSlice({
 							"bg-bgblue-200/60 text-white font-foe text-xl uppercase backdrop-blur",
 					});
 				}
-				localStorage.setItem("level", state.level);
-				localStorage.setItem("xp", state.xp);
 				console.log(xpGotten, xpNeeded, state.xp, state.level);
 			}
 		},
@@ -56,11 +55,59 @@ export const playerStatsSlice = createSlice({
 		},
 		newDay: (state) => {
 			state.areTodaysQuestsCompleted = false;
-			localStorage.setItem("areTodaysQuestsCompleted", false);
+			state.arePunishmentsCompleted = false;
+			state.randpunishment =
+				punishments[Math.floor(Math.random() * punishments.length)];
+			state.date = new Date().getDate();
+			state.doneQuestsObject = questsObject;
+			state.mode = "quest";
+		},
+		completePunishments: (state) => {
+			state.level = state.level + 1;
+			state.arePunishmentsCompleted = true;
+			state.randpunishment =
+				punishments[Math.floor(Math.random() * punishments.length)];
+			toast.success(`You reached Level ${state.level}`, {
+				delay: 1000,
+				className:
+					"bg-bgblue-200/60 text-white font-foe text-xl uppercase backdrop-blur",
+			});
+		},
+		completeQuest: (state, id) => {
+			const newState = { ...state.doneQuestsObject, [id.payload]: true };
+			state.doneQuestsObject = newState;
+		},
+		showNotif: (state, action) => {
+			toast.success(action.payload, {
+				delay: 1000,
+				className:
+					"bg-bgblue-200/60 text-white font-foe text-xl uppercase backdrop-blur",
+			});
+		},
+		setMode: (state, action) => {
+			state.mode = action.payload;
+		},
+		penalty: (state) => {
+			state.level -= 1;
+			state.arePunishmentsCompleted = true;
+			toast.success("Failed to Complete the Punishment. You Lost 1 Level", {
+				delay: 1000,
+				className:
+					"bg-bgblue-200/60 text-white font-foe text-xl uppercase backdrop-blur",
+			});
 		},
 	},
 });
 
-export const { addXp, log, newDay } = playerStatsSlice.actions;
+export const {
+	addXp,
+	log,
+	newDay,
+	completePunishments,
+	completeQuest,
+	showNotif,
+	setMode,
+	penalty,
+} = playerStatsSlice.actions;
 
 export default playerStatsSlice.reducer;
