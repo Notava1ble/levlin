@@ -66,12 +66,7 @@ const Clock = () => {
 
 	return (
 		<div className="flex items-center justify-center gap-3 mt-4">
-			<img
-				src={clockSvg}
-				alt="clock"
-				className="w-10 h-10"
-				onClick={() => dispatch(newDay())}
-			/>
+			<img src={clockSvg} alt="clock" className="w-10 h-10" />
 			<p className="text-white font-foe text-lg md:text-2xl uppercase px-1">
 				{time}
 			</p>
