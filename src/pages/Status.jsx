@@ -4,8 +4,14 @@ import Page from "../components/Page";
 
 import { useDispatch, useSelector } from "react-redux";
 import {} from "../features/playerStatsSlice";
+import { useEffect } from "react";
 
 const Status = () => {
+	useEffect(() => {
+		if (localStorage.getItem("level")) {
+			localStorage.clear();
+		}
+	});
 	const xp = useSelector((state) => state.playerStats.xp);
 	const level = useSelector((state) => state.playerStats.level);
 	const xpNeeded = Math.round((level / (Math.PI / 31)) ** 2);
@@ -50,7 +56,7 @@ const Status = () => {
 					</Buttons>
 				</div>
 			</div>
-			<div className="w-[85%] border border-white mx-auto flex justify-center items-center transition-all p-3 gap-2">
+			<div className="w-[85%] border border-white mx-auto hidden justify-center items-center transition-all p-3 gap-2">
 				<button
 					className="text-white border p-1 mt-1"
 					onClick={() => {
@@ -59,12 +65,12 @@ const Status = () => {
 				>
 					Dev: reset data
 				</button>
-				{/* <button
+				<button
 					className="text-white border p-1 mt-1 hidden"
 					onClick={() => dispatch(addXp())}
 				>
 					Dev: addXp
-				</button> */}
+				</button>
 			</div>
 		</Page>
 	);

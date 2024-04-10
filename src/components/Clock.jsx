@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import clockSvg from "../assets/clock.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { newDay, penalty, setMode } from "../features/playerStatsSlice";
+import { toast } from "react-toastify";
 
 const Clock = () => {
 	const dispatch = useDispatch();
@@ -32,31 +33,31 @@ const Clock = () => {
 				setTime(`${hours}: ${minutes}: ${seconds}`);
 			}
 
-			// Mode Logic
-
-			if (
-				now.getHours() >= 18 &&
-				now.getHours() < 22 &&
-				!areTodaysQuestsCompleted &&
-				mode === "quest"
-			) {
-				dispatch(setMode("punishment"));
-			} else if (
-				now.getHours() >= 18 &&
-				areTodaysQuestsCompleted &&
-				mode === "quest"
-			) {
-				dispatch(setMode("rest"));
-			} else if (
-				(now.getHours() >= 22 || date !== now.getDate()) &&
-				!arePunishmentsCompleted &&
-				!areTodaysQuestsCompleted
-			) {
-				dispatch(penalty());
+			if (date !== now.getDate()) {
+				if (!arePunishmentsCompleted && !areTodaysQuestsCompleted)
+					dispatch(penalty());
+				dispatch(newDay());
 			}
 
-			if (date !== now.getDate()) {
-				dispatch(newDay());
+			// Mode Logic
+			switch (mode) {
+				case "quest":
+					if (areTodaysQuestsCompleted) {
+						dispatch(setMode("rest"));
+					} else if (now.getHours() >= 18 && now.getHours() < 22) {
+						dispatch(setMode("punishment"));
+						toast.warning("Quests not completed. Activating Punishment");
+					} else if (now.getHours() >= 22) {
+						dispatch(penalty());
+						dispatch(setMode("rest"));
+					}
+				case "punishment":
+					if (arePunishmentsCompleted) {
+						dispatch(setMode("rest"));
+					} else if (now.getHours() >= 22) {
+						dispatch(penalty);
+						dispatch(setMode("rest"));
+					}
 			}
 		}, 1000);
 

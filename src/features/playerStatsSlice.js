@@ -67,6 +67,7 @@ export const playerStatsSlice = createSlice({
 			state.arePunishmentsCompleted = true;
 			state.randpunishment =
 				punishments[Math.floor(Math.random() * punishments.length)];
+			state.mode = "rest";
 			toast.success(`You reached Level ${state.level}`, {
 				delay: 1000,
 				className:
@@ -88,13 +89,17 @@ export const playerStatsSlice = createSlice({
 			state.mode = action.payload;
 		},
 		penalty: (state) => {
-			state.level -= 1;
 			state.arePunishmentsCompleted = true;
-			toast.success("Failed to Complete the Punishment. You Lost 1 Level", {
-				delay: 1000,
-				className:
-					"bg-bgblue-200/60 text-white font-foe text-xl uppercase backdrop-blur",
-			});
+			if (state.level === 1) {
+				toast.error("Level to low. Failed to give punishment");
+			} else {
+				state.level -= 1;
+				toast.success("Failed to Complete the Punishment. You Lost 1 Level", {
+					delay: 1000,
+					className:
+						"bg-bgblue-200/60 text-white font-foe text-xl uppercase backdrop-blur",
+				});
+			}
 		},
 	},
 });

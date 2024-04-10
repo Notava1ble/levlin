@@ -30,7 +30,6 @@ const Quests = () => {
 	};
 	const handlePunishmentDone = (id) => {
 		dispatch(completePunishments());
-		dispatch(setMode("rest"));
 	};
 
 	// Switch mode logic
